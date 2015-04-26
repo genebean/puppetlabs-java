@@ -52,6 +52,11 @@ class java::params {
     }
     'Debian': {
 
+      $debian_oracle_java_architecture = $::architecture ? {
+        'i386'  => 'i586', # 32 bit
+        default => 'x64',  # 64 bit
+      }
+
       $debian_jdk6 = {
         'package'          => 'openjdk-6-jdk',
         'alternative'      => "java-6-openjdk-${::architecture}",
@@ -88,7 +93,6 @@ class java::params {
         'alternative_path' => "/usr/lib/jvm/java-1.8.0-openjdk-${::architecture}/bin/java",
         'java_home'        => "/usr/lib/jvm/java-1.8.0-openjdk-${::architecture}/",
       }
-
       $debian_sun_jdk6 = {
         'package'          => 'sun-java6-jdk',
         'alternative'      => 'java-6-sun',
@@ -113,6 +117,18 @@ class java::params {
         'alternative_path' => '/usr/lib/jvm/j2re1.7-oracle/bin/java',
         'java_home'        => '/usr/lib/jvm/j2re1.7-oracle/',
       }
+      $debian_oracle_jdk8 = {
+        'package'          => 'oracle-java8-jdk',
+        'alternative'      => "jdk-8-oracle-${debian_oracle_java_architecture}",
+        'alternative_path' => "/usr/lib/jvm/jdk-8-oracle-${debian_oracle_java_architecture}/jre/bin/java",
+        'java_home'        => "/usr/lib/jvm/jdk-8-oracle-${debian_oracle_java_architecture}/",
+      }
+      $debian_oracle_jre8 = {
+        'package'          => 'oracle-java8-jre',
+        'alternative'      => "jre-8-oracle-${debian_oracle_java_architecture}",
+        'alternative_path' => "/usr/lib/jvm/jre-8-oracle-${debian_oracle_java_architecture}/bin/java",
+        'java_home'        => "/usr/lib/jvm/jre-8-oracle-${debian_oracle_java_architecture}/",
+      }
 
       case $::lsbdistcodename {
         'lenny', 'squeeze', 'lucid', 'natty': {
@@ -125,16 +141,26 @@ class java::params {
         }
         'wheezy', 'jessie', 'precise','quantal','raring','saucy', 'trusty', 'utopic': {
           $java =  {
-            'jdk'        => $debian_jdk7,
-            'jre'        => $debian_jre7,
-            'oracle-jdk' => $debian_oracle_jdk7,
-            'oracle-jre' => $debian_oracle_jre7,
+            'jdk'         => $debian_jdk7,
+            'jre'         => $debian_jre7,
+            'jdk7'        => $debian_jdk7,
+            'jre7'        => $debian_jre7,
+            'jdk8'        => $debian_jdk8,
+            'jre8'        => $debian_jre8,
+            'oracle-jdk'  => $debian_oracle_jdk7,
+            'oracle-jre'  => $debian_oracle_jre7,
+            'oracle-jdk7' => $debian_oracle_jdk7,
+            'oracle-jre7' => $debian_oracle_jre7,
+            'oracle-jdk8' => $debian_oracle_jdk8,
+            'oracle-jre8' => $debian_oracle_jre8,
           }
         }
         'vivid': {
           $java =  {
-            'jdk' => $debian_jdk8,
-            'jre' => $debian_jre8,
+            'jdk'  => $debian_jdk8,
+            'jre'  => $debian_jre8,
+            'jdk8' => $debian_jdk8,
+            'jre8' => $debian_jre8,
           }
         }
         default: { fail("unsupported release ${::lsbdistcodename}") }
