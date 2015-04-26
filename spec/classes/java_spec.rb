@@ -61,25 +61,9 @@ describe 'java', :type => :class do
     it { should_not contain_exec('update-java-alternatives') }
   end
 
-  context 'select default for Debian Wheezy' do
-    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
-    it { should contain_package('java').with_name('openjdk-7-jdk') }
-    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre') }
-  end
-
-  context 'select Oracle JRE for Debian Wheezy' do
-    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
-    let(:params) { { 'distribution' => 'oracle-jre' } }
-    it { should contain_package('java').with_name('oracle-j2re1.7') }
-    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set j2re1.7-oracle --jre') }
-  end
-
-  context 'select OpenJDK JRE for Debian Wheezy' do
-    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
-    let(:params) { { 'distribution' => 'jre' } }
-    it { should contain_package('java').with_name('openjdk-7-jre-headless') }
-    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre-headless') }
-  end
+  # =============================================================================================================================================
+  # Debian: 'lenny', 'squeeze', Ubuntu: 'lucid', 'natty'
+  # =============================================================================================================================================
 
   context 'select default for Debian Squeeze' do
     let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'squeeze', :operatingsystemrelease => '6.0.5', :architecture => 'amd64',} }
@@ -101,12 +85,40 @@ describe 'java', :type => :class do
     it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-6-openjdk-amd64 --jre-headless') }
   end
 
+  # =============================================================================================================================================
+  # Debian: 'wheezy', 'jessie', Ubuntu: 'precise','quantal','raring','saucy', 'trusty', 'utopic'
+  # =============================================================================================================================================
+
+  context 'select default for Debian Wheezy' do
+    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
+    it { should contain_package('java').with_name('openjdk-7-jdk') }
+    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre') }
+  end
+
+  context 'select Oracle JRE for Debian Wheezy' do
+    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
+    let(:params) { { 'distribution' => 'oracle-jre' } }
+    it { should contain_package('java').with_name('oracle-j2re1.7') }
+    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set j2re1.7-oracle --jre') }
+  end
+
+  context 'select OpenJDK JRE for Debian Wheezy' do
+    let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
+    let(:params) { { 'distribution' => 'jre' } }
+    it { should contain_package('java').with_name('openjdk-7-jre-headless') }
+    it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set java-1.7.0-openjdk-amd64 --jre-headless') }
+  end
+
   context 'select random alternative for Debian Wheezy' do
     let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Debian', :lsbdistcodename => 'wheezy', :operatingsystemrelease => '7.1', :architecture => 'amd64',} }
     let(:params) { { 'java_alternative' => 'bananafish' } }
     it { should contain_package('java').with_name('openjdk-7-jdk') }
     it { should contain_exec('update-java-alternatives').with_command('update-java-alternatives --set bananafish --jre') }
   end
+
+  # =============================================================================================================================================
+  # Ubuntu: 'vivid'
+  # =============================================================================================================================================
 
   context 'select jdk for Ubuntu Vivid (15.04)' do
     let(:facts) { {:osfamily => 'Debian', :operatingsystem => 'Ubuntu', :lsbdistcodename => 'vivid', :operatingsystemrelease => '15.04', :architecture => 'amd64',} }
@@ -119,6 +131,8 @@ describe 'java', :type => :class do
     let(:params) { { 'distribution' => 'jre' } }
     it { should contain_package('java').with_name('openjdk-8-jre-headless') }
   end
+
+  # =============================================================================================================================================
 
   context 'select openjdk for Amazon Linux' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon', :operatingsystemrelease => '3.4.43-43.43.amzn1.x86_64'} }
