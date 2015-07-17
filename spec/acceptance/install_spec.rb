@@ -98,11 +98,31 @@ describe 'sun', :if => (fact('operatingsystem') == 'Debian' and fact('operatings
   end
 end
 
+describe 'java-versioned', :if => (fact('osfamily') == 'Debian' and fact('lsbdistcodename').match(/^(wheezy|jessie|precise|quantal|raring|saucy|trusty|utopic)$/)) do
+  ["", "7", "8"].each do |version|
+    %w{jre jdk}.each do |distribution_prefix|
+      distribution = "#{distribution_prefix}#{version}"
+      describe distribution do
+        it "should install #{distribution}" do
+          pp = <<-EOS
+            class { 'java':
+              distribution => '#{distribution}',
+            }
+          EOS
+
+          apply_manifest(pp, :catch_failures => true)
+          apply_manifest(pp, :catch_changes => true)
+        end
+      end
+    end
+  end
+end
+
 # C14704
 # C14705
 # C15006
 describe 'oracle', :if => (
-  (fact('operatingsystem') == 'Debian') and (fact('operatingsystemrelease').match(/^7/)) or
+  (fact('operatingsystem') == 'Debian') and (fact('operatingsystemrelease').match(/^7|^8/)) or
   (fact('operatingsystem') == 'Ubuntu') and (fact('operatingsystemrelease').match(/^12\.04/)) or
   (fact('operatingsystem') == 'Ubuntu') and (fact('operatingsystemrelease').match(/^14\.04/))
 ) do
@@ -110,7 +130,7 @@ describe 'oracle', :if => (
   # The package is not available from any sources, but if a customer
   # custom-builds the package using java-package and adds it to a local
   # repository, that is the intention of this version ability
-  describe 'jre' do
+  describe 'oracle-jre' do
     it 'should install oracle-jre' do
       pp = <<-EOS
         class { 'java':
@@ -121,7 +141,7 @@ describe 'oracle', :if => (
       apply_manifest(pp, :expect_failures => true)
     end
   end
-  describe 'jdk' do
+  describe 'oracle-jdk' do
     it 'should install oracle-jdk' do
       pp = <<-EOS
         class { 'java':
@@ -130,6 +150,25 @@ describe 'oracle', :if => (
       EOS
 
       apply_manifest(pp, :expect_failures => true)
+    end
+  end
+end
+
+describe 'non-Debian failure cases', :if => fact('osfamily') != 'Debian' do
+  ["7", "8"].each do |version|
+    %w{jre jdk}.each do |distribution_prefix|
+      distribution = "#{distribution_prefix}#{version}"
+      describe distribution do
+        it "should fail to install #{distribution} on non-Debian" do
+          pp = <<-EOS
+            class { 'java':
+              distribution => '#{distribution}',
+            }
+          EOS
+
+          apply_manifest(pp, :expect_failures => true)
+        end
+      end
     end
   end
 end

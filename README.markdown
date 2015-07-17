@@ -52,8 +52,26 @@ class { 'java':
 The following parameters are available in `java`:
 
 ##### `distribution`
-Specifies the Java distribution to install.  
-Valid options:  'jdk', 'jre', or, where the platform supports alternative packages, 'sun-jdk', 'sun-jre', 'oracle-jdk', 'oracle-jre'. Default: 'jdk'.
+Specifies the Java distribution to install. Valid options and supported platforms:
+
+* 'jdk' — all platforms
+* 'jre' — all platforms
+* 'sun-jdk' — Debian 5 and 6, Ubuntu 10.04 and 11.04
+* 'sun-jre' — Debian 5 and 6, Ubuntu 10.04 and 11.04
+* 'jdk7' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'jre7' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'jdk8' — Debian 7 and 8, Ubuntu 12.04 through 15.04
+* 'jre8' — Debian 7 and 8, Ubuntu 12.04 through 15.04
+* 'oracle-jdk' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'oracle-jre' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'oracle-jdk7' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'oracle-jre7' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'oracle-jdk8' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+* 'oracle-jre8' — Debian 7 and 8, Ubuntu 12.04 through 14.10
+
+Note that the oracle-* packages must be built by hand.
+
+Default: 'jdk'.
 
 #####`java_alternative`
 Specifies the name of the Java alternative to use. If you set this parameter, *you must also set the `java_alternative_path`.*  
