@@ -155,7 +155,7 @@ class java::params {
             'oracle-jre8' => $debian_oracle_jre8,
           }
         }
-        'vivid': {
+        'stretch', 'vivid', 'wily', 'xenial', 'yakkety', 'zesty', 'artful', 'bionic': {
           $java =  {
             'jdk'  => $debian_jdk8,
             'jre'  => $debian_jre8,
