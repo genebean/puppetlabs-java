@@ -141,18 +141,20 @@ class java::params {
         }
         'wheezy', 'jessie', 'precise','quantal','raring','saucy', 'trusty', 'utopic': {
           $java =  {
-            'jdk'         => $debian_jdk7,
-            'jre'         => $debian_jre7,
-            'jdk7'        => $debian_jdk7,
-            'jre7'        => $debian_jre7,
-            'jdk8'        => $debian_jdk8,
-            'jre8'        => $debian_jre8,
-            'oracle-jdk'  => $debian_oracle_jdk7,
-            'oracle-jre'  => $debian_oracle_jre7,
-            'oracle-jdk7' => $debian_oracle_jdk7,
-            'oracle-jre7' => $debian_oracle_jre7,
-            'oracle-jdk8' => $debian_oracle_jdk8,
-            'oracle-jre8' => $debian_oracle_jre8,
+            'jdk'              => $debian_jdk7,
+            'jre'              => $debian_jre7,
+            'jdk7'             => $debian_jdk7,
+            'jre7'             => $debian_jre7,
+            'jdk8'             => $debian_jdk8,
+            'jre8'             => $debian_jre8,
+            'oracle-jdk'       => $debian_oracle_jdk7,
+            'oracle-jre'       => $debian_oracle_jre7,
+            'oracle-jdk7'      => $debian_oracle_jdk7,
+            'oracle-jre7'      => $debian_oracle_jre7,
+            'oracle-jdk8'      => $debian_oracle_jdk8,
+            'oracle-java8-jdk' => $debian_oracle_jdk8, #this is the name used upstream
+            'oracle-jre8'      => $debian_oracle_jre8,
+            'oracle-java8-jre' => $debian_oracle_jre8,  #this is the name used upstream
           }
         }
         'stretch', 'vivid', 'wily', 'xenial', 'yakkety', 'zesty', 'artful', 'bionic': {
